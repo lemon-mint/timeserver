@@ -19,6 +19,9 @@ jobs:
     
     - name: Push image
       run: |
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io
+          -u lemon-mint --password-stdin
+
         docker push ghcr.io/lemon-mint/timeserver:latest
         docker tag ghcr.io/lemon-mint/timeserver:latest "ghcr.io/lemon-mint/timeserver:${GITHUB_REF#refs/*/}"
         docker push "ghcr.io/lemon-mint/timeserver:${GITHUB_REF#refs/*/}"

@@ -1,8 +1,12 @@
-FROM docker.io/golang:alpine
+FROM docker.io/golang:alpine as build
 
 WORKDIR /app
 ADD . /app
-RUN go build -o /app/main.exe .
+RUN CGO_ENABLED=0 go build -v -o /app/main.exe .
 
+FROM gcr.io/distroless/static-debian11
+
+COPY --from=build /app/main.exe /
 EXPOSE 8080
-ENTRYPOINT ["/app/main.exe"]
+
+CMD ["/main.exe"]
