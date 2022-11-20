@@ -2,12 +2,7 @@ FROM golang:alpine AS builder
 
 WORKDIR /app
 ADD . /app
-
-RUN go build -o /main.exe .
-
-FROM scratch
-
-COPY --from=builder /main.exe /
+RUN go build -o /app/main.exe .
 
 EXPOSE 8080
-ENTRYPOINT ["/main.exe"]
+ENTRYPOINT ["/app/main.exe"]
