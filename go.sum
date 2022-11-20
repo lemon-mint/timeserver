@@ -1,0 +1,8 @@
+github.com/julienschmidt/httprouter v1.3.0 h1:U0609e9tgbseu3rBINet9P48AI/D3oJs4dN7jwJOQ1U=
+github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8IZAc4RVcycCCAKdM=
+github.com/lemon-mint/envaddr v0.0.0-20220724120637-f2bfd2710deb h1:0F4uyUlNFiK6eINvVjlOIjCya+l+YjjybADGqCNU35Q=
+github.com/lemon-mint/envaddr v0.0.0-20220724120637-f2bfd2710deb/go.mod h1:SKgtfBMu7EVSi/eeEqfCD/cxwSw3rk091SdA1k6NZ4w=
+github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
+github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
+v8.run/go/exp v0.0.20 h1:suoul0LA6/wT1A32PLcJTBtoLhAZfssIBSHGqaZUQC8=
+v8.run/go/exp v0.0.20/go.mod h1:PXvWlnUgCKNPDInXVYZ9HHVxvnGDT9l5w8m09H5mN/U=
