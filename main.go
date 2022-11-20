@@ -1,6 +1,8 @@
 package main
 
 import (
+	"embed"
+	"io/fs"
 	"log"
 	"net"
 	"net/http"
@@ -12,7 +14,12 @@ import (
 	"github.com/valyala/bytebufferpool"
 	"v8.run/go/exp/signal2"
 	"v8.run/go/exp/time2/timeutil"
+
+	_ "embed"
 )
+
+//go:embed dist/*
+var staticFS embed.FS
 
 func main() {
 	ln, err := net.Listen("tcp", envaddr.Get(":8080"))
@@ -23,14 +30,33 @@ func main() {
 	log.Println("Listening on", ln.Addr())
 
 	r := httprouter.New()
-	server := &http.Server{Handler: r}
+	server := &http.Server{Handler: CORP{r}}
 
 	r.GET("/tt", TimeHandler)
 	r.HandlerFunc("GET", "/time", timeutil.TimeHandler)
 
+	f, err := fs.Sub(staticFS, "dist")
+	if err != nil {
+		panic(err)
+	}
+	r.NotFound = http.FileServer(http.FS(f))
+
 	go server.Serve(ln)
 	signal2.WaitForInterrupt()
 	log.Println("Shutting down...")
+}
+
+// Cross-Origin-Opener-Policy: same-origin
+// Cross-Origin-Embedder-Policy: require-corp
+type CORP struct {
+	h http.Handler
+}
+
+func (c CORP) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Cross-Origin-Opener-Policy", "same-origin")
+	w.Header().Set("Cross-Origin-Embedder-Policy", "require-corp")
+
+	c.h.ServeHTTP(w, r)
 }
 
 func TimeHandler(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
