@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build -t ghcr.io/lemon-mint/timeserver:latest .
+    
+    - name: Push image
+      run: |
+        docker push ghcr.io/lemon-mint/timeserver:latest
+        docker tag ghcr.io/lemon-mint/timeserver:latest "ghcr.io/lemon-mint/timeserver:${GITHUB_REF#refs/*/}"
+        docker push "ghcr.io/lemon-mint/timeserver:${GITHUB_REF#refs/*/}"
