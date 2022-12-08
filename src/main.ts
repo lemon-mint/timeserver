@@ -70,6 +70,7 @@ function render() {
     // We need to resync
     state.sync = false;
     SyncOffset();
+    wall_mono_offset = walloff;
   } else {
     wall_mono_offset = walloff;
   }
