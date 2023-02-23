@@ -1,9 +1,8 @@
 name: Docker Image CI
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -20,4 +19,4 @@ jobs:
       env:
         KO_DOCKER_REPO: ghcr.io/lemon-mint
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: ko build -B .
+      run: ko build --platform=all -B .
