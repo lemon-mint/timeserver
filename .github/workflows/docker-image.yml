@@ -18,6 +18,6 @@ jobs:
 
     - name: ko build
       env:
-        KO_DOCKER_REPO: ghcr.io/lemon-mint/timeserver
+        KO_DOCKER_REPO: ghcr.io/lemon-mint
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: ko build --tags "${GITHUB_REF#refs/*/},latest" .
+      run: ko build -B .
