@@ -14,12 +14,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t "ghcr.io/lemon-mint/timeserver:${GITHUB_REF#refs/*/}" .
-    
-    - name: Push image
-      run: |
-        docker login ghcr.io -u lemon-mint --password ${{ secrets.GITHUB_TOKEN }}
-        docker push "ghcr.io/lemon-mint/timeserver:${GITHUB_REF#refs/*/}"
-        docker tag "ghcr.io/lemon-mint/timeserver:${GITHUB_REF#refs/*/}" "ghcr.io/lemon-mint/timeserver:latest"
-        docker push "ghcr.io/lemon-mint/timeserver:latest"
+    - uses: imjasonh/setup-ko@v0.6
+
+    - name: ko build
+      env:
+        KO_DOCKER_REPO: ghcr.io/lemon-mint/timeserver
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: ko build --tags "${GITHUB_REF#refs/*/},latest" .
